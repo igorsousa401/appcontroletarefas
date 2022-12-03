@@ -9,6 +9,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{route('tarefa.store')}}" enctype="multipart/form-data">
                       @csrf
+                      <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
                         <div class="mb-3">
                           <label for="tarefa" class="form-label">Tarefa</label>
                           <input type="text" class="form-control" name="tarefa">

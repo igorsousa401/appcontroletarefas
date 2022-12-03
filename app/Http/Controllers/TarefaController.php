@@ -22,11 +22,10 @@ class TarefaController extends Controller
      */
     public function index()
     {
-            $id = auth()->user()->id;
-            $name = auth()->user()->name;
-            $email = auth()->user()->email;
+            $user_id = auth()->user()->id;
+            $tarefas = Tarefa::where('user_id', $user_id)->paginate(1);
 
-            return "ID: $id | Name: $name | E-mail: $email";
+            return view('tarefa.index', ['tarefas' => $tarefas]);
     }
 
     /**
@@ -53,6 +52,7 @@ class TarefaController extends Controller
             $tarefa = Tarefa::create([
                 'tarefa' => $request->tarefa,
                 'data_tarefa_conclusao' => $request->data_tarefa_conclusao,
+                'user_id' => $request->user_id,
             ]);
             $destinatario = auth()->user()->email;
             Mail::to($destinatario)->send(new NovaTarefaMail($tarefa));
